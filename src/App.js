@@ -1,6 +1,7 @@
 import React from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import ProductCard from './components/ProductCard';
+import ProductCard from 'components/ProductCard';
+import Header from 'components/Header';
 
 const product = {
   id: 1,
@@ -16,6 +17,7 @@ const product = {
 
 const App = () => (
   <div className="App">
+    <Header />
     <ProductCard product={product} />
   </div>
 );
