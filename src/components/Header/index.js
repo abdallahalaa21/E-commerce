@@ -1,6 +1,6 @@
 import React from 'react';
 import { Image, Navbar } from 'react-bootstrap';
-import { ReactComponent as CartIcon } from 'images/shopping-cart.svg';
+import CartDropDown from 'components/CartDropDown';
 
 const user = {
   image: 'http://placeimg.com/640/480/people',
@@ -12,14 +12,7 @@ const Header = () => (
     <Navbar.Brand href="/">Navbar with text</Navbar.Brand>
     <Navbar.Toggle />
     <Navbar.Collapse className="justify-content-end">
-      <CartIcon
-        style={{
-          width: '50px',
-          height: 'auto',
-          fill: 'white'
-        }}
-        className="mr-3"
-      />
+      <CartDropDown />
       <Image
         src={user?.image}
         roundedCircle
