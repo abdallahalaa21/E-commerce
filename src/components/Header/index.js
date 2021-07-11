@@ -1,5 +1,6 @@
 import React from 'react';
 import { Image, Navbar } from 'react-bootstrap';
+import { NavLink } from 'react-router-dom';
 import CartDropDown from 'components/CartDropDown';
 
 const user = {
@@ -9,7 +10,11 @@ const user = {
 
 const Header = () => (
   <Navbar bg="dark" variant="dark">
-    <Navbar.Brand href="/">Navbar with text</Navbar.Brand>
+    <Navbar.Brand>
+      <NavLink className="navLink headerLink" to="/">
+        WebSite
+      </NavLink>
+    </Navbar.Brand>
     <Navbar.Toggle />
     <Navbar.Collapse className="justify-content-end">
       <CartDropDown />
