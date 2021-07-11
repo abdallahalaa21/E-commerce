@@ -1,11 +1,6 @@
-import React, { useCallback, useState } from 'react';
-import {
-  Button,
-  Dropdown,
-  FormControl,
-  Image,
-  InputGroup
-} from 'react-bootstrap';
+import React, { useState } from 'react';
+import { Dropdown, Image } from 'react-bootstrap';
+import CountInput from 'components/CountInput';
 
 const product = {
   title:
@@ -19,30 +14,6 @@ const product = {
 const CartItem = () => {
   const [count, setCount] = useState(9);
 
-  const changeCount = useCallback(type => {
-    switch (type) {
-      case '+':
-        setCount(prev => prev + 1);
-        break;
-      case '-':
-        setCount(prev => {
-          if (prev <= 0) return prev;
-          return prev - 1;
-        });
-        break;
-      default:
-    }
-  }, []);
-
-  const changeCountTyping = useCallback(value => {
-    setCount(prev => {
-      if (Number.isNaN(Number(value)) || value < 1) {
-        return prev;
-      }
-      return Number(value);
-    });
-  }, []);
-
   return (
     <>
       <Image
@@ -52,29 +23,7 @@ const CartItem = () => {
         style={{ objectFit: 'cover' }}
       />
       <p>{product.title}</p>
-      <InputGroup className="mb-3">
-        <InputGroup.Prepend>
-          <Button
-            variant="outline-secondary"
-            onClick={() => changeCount('-')}
-          >
-            -
-          </Button>
-        </InputGroup.Prepend>
-        <FormControl
-          aria-describedby="count"
-          value={count}
-          onChange={e => changeCountTyping(e.target.value)}
-        />
-        <InputGroup.Append>
-          <Button
-            variant="outline-secondary"
-            onClick={() => changeCount('+')}
-          >
-            +
-          </Button>
-        </InputGroup.Append>
-      </InputGroup>
+      <CountInput count={count} setCount={setCount} />
       <Dropdown.Divider />
     </>
   );

@@ -1,7 +1,7 @@
 import ProductCard from 'components/ProductCard';
 import React from 'react';
 import { Col, Container, Row } from 'react-bootstrap';
-import products from './products';
+import products from 'static/products';
 
 const HomePage = () => (
   <Container className="mt-4">

@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Button, Card } from 'react-bootstrap';
+import { NavLink } from 'react-router-dom';
 
 const ProductCard = ({ product }) => (
   <Card
@@ -17,7 +18,11 @@ const ProductCard = ({ product }) => (
       className="mx-auto"
     />
     <Card.Body className="d-flex flex-column">
-      <Card.Title>{product?.title}</Card.Title>
+      <Card.Title className="text-dark">
+        <NavLink to={`${product?.id}`}>
+          {product?.title}
+        </NavLink>
+      </Card.Title>
       <Card.Subtitle className="mb-2 text-muted">
         {product?.category}
       </Card.Subtitle>
@@ -34,6 +39,7 @@ const ProductCard = ({ product }) => (
 
 ProductCard.propTypes = {
   product: PropTypes.shape({
+    id: PropTypes.number.isRequired,
     image: PropTypes.string.isRequired,
     title: PropTypes.string.isRequired,
     category: PropTypes.string.isRequired,
