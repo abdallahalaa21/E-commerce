@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from 'react';
+import React, { useState } from 'react';
 import {
   Card,
   Col,
@@ -8,18 +8,17 @@ import {
   Button
 } from 'react-bootstrap';
 import { useParams } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 import CountInput from 'components/CountInput';
-import products from 'static/products';
 
 const ProductPage = () => {
   const { id } = useParams();
   const [count, setCount] = useState(1);
-  const product = useMemo(
-    () =>
-      products.find(
-        productEle => productEle.id === Number(id)
-      ),
-    [id]
+
+  const product = useSelector(({ products }) =>
+    products.products.find(
+      productEle => productEle.id === Number(id)
+    )
   );
 
   return (

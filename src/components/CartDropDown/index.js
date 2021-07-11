@@ -1,5 +1,6 @@
 import React from 'react';
 import { Dropdown } from 'react-bootstrap';
+import { connect } from 'react-redux';
 
 import { ReactComponent as CartIcon } from 'images/shopping-cart.svg';
 import CartItem from 'components/CartItem';
@@ -39,4 +40,8 @@ const CartDropDown = () => (
   </Dropdown>
 );
 
-export default CartDropDown;
+const mapStateToProps = state => ({
+  cart: state.cart.cart
+});
+
+export default connect(mapStateToProps)(CartDropDown);

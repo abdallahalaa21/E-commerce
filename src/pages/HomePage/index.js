@@ -1,5 +1,6 @@
-import ProductCard from 'components/ProductCard';
-import React, { useMemo, useState } from 'react';
+import React, { useEffect, useState } from 'react';
+import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 import {
   Col,
   Container,
@@ -7,22 +8,18 @@ import {
   InputGroup,
   Row
 } from 'react-bootstrap';
-import { ReactComponent as SearchIcon } from 'images/search.svg';
-import useDebounce from 'helpers/useDebounce';
-import productsData from 'static/products';
 
-const HomePage = () => {
+import { ReactComponent as SearchIcon } from 'images/search.svg';
+import ProductCard from 'components/ProductCard';
+import { searchProduct } from 'redux/Products/products-actions';
+import useDebounce from 'helpers/useDebounce';
+
+const HomePage = ({ products, searchProductFunc }) => {
   const [searchTxt, setSearchTxt] = useState('');
   const debouncedSearchTerm = useDebounce(searchTxt, 500);
-
-  const products = useMemo(
-    () =>
-      productsData.filter(product =>
-        product.title
-          .toLowerCase()
-          .includes(debouncedSearchTerm.toLowerCase())
-      ),
-    [debouncedSearchTerm]
+  useEffect(
+    () => searchProductFunc(debouncedSearchTerm),
+    [searchProductFunc, debouncedSearchTerm]
   );
 
   return (
@@ -44,7 +41,7 @@ const HomePage = () => {
         </InputGroup>
       </Row>
       <Row>
-        {products.map(product => (
+        {products?.map(product => (
           <Col
             xs={12}
             sm={6}
@@ -62,4 +59,20 @@ const HomePage = () => {
   );
 };
 
-export default HomePage;
+HomePage.propTypes = {
+  products: PropTypes.array.isRequired,
+  searchProductFunc: PropTypes.func.isRequired
+};
+
+const mapStateToProps = state => ({
+  products: state.products.filteredProducts
+});
+
+const mapDispatchToProps = dispatch => ({
+  searchProductFunc: value => dispatch(searchProduct(value))
+});
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(HomePage);
