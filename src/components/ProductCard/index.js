@@ -3,16 +3,31 @@ import PropTypes from 'prop-types';
 import { Button, Card } from 'react-bootstrap';
 
 const ProductCard = ({ product }) => (
-  <Card style={{ width: '18rem' }}>
-    <Card.Img variant="top" src={product?.image} />
-    <Card.Body>
+  <Card
+    style={{
+      minWidth: '18rem',
+      height: '100%'
+    }}
+  >
+    <Card.Img
+      variant="top"
+      src={product?.image}
+      height="400px"
+      style={{ objectFit: 'contain', width: '90%' }}
+      className="mx-auto"
+    />
+    <Card.Body className="d-flex flex-column">
       <Card.Title>{product?.title}</Card.Title>
       <Card.Subtitle className="mb-2 text-muted">
         {product?.category}
       </Card.Subtitle>
-      <Card.Text>{product?.description}</Card.Text>
+      <Card.Text className="row-12  text-truncate">
+        {product?.description}
+      </Card.Text>
       <Card.Text>price :{product?.price}</Card.Text>
-      <Button variant="primary">Go somewhere</Button>
+      <Button variant="primary" className="mt-auto ">
+        Go somewhere
+      </Button>
     </Card.Body>
   </Card>
 );
