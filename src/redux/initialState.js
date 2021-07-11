@@ -1,10 +1,8 @@
 import products from 'static/products';
 
-export const CART_INITIAL_STATE = {
-  cart: []
-};
-
-export const PRODUCTS_INITIAL_STATE = {
+// eslint-disable-next-line import/prefer-default-export
+export const INITIAL_STATE = {
+  cart: [],
   products,
   filteredProducts: products
 };

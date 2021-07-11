@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import React from 'react';
+import PropTypes from 'prop-types';
 import {
   Card,
   Col,
@@ -8,12 +9,11 @@ import {
   Button
 } from 'react-bootstrap';
 import { useParams } from 'react-router-dom';
-import { useSelector } from 'react-redux';
-import CountInput from 'components/CountInput';
+import { connect, useSelector } from 'react-redux';
+import { addToCart } from 'redux/Cart/cart-actions';
 
-const ProductPage = () => {
+const ProductPage = ({ addItem }) => {
   const { id } = useParams();
-  const [count, setCount] = useState(1);
 
   const product = useSelector(({ products }) =>
     products.products.find(
@@ -43,16 +43,11 @@ const ProductPage = () => {
               <p>Description: {product.description}</p>
               <p>price: {product.price}</p>
               <div className="d-flex mt-auto">
-                <Col xs={6} lg={4} xl={4}>
-                  <CountInput
-                    count={count}
-                    setCount={setCount}
-                  />
-                </Col>
                 <Col>
                   <Button
                     variant="primary"
                     className="w-75"
+                    onClick={() => addItem(id)}
                   >
                     add to cart
                   </Button>
@@ -66,4 +61,15 @@ const ProductPage = () => {
   );
 };
 
-export default ProductPage;
+const mapDispatchToProps = dispatch => ({
+  addItem: itemId => dispatch(addToCart(itemId))
+});
+
+ProductPage.propTypes = {
+  addItem: PropTypes.func.isRequired
+};
+
+export default connect(
+  null,
+  mapDispatchToProps
+)(ProductPage);

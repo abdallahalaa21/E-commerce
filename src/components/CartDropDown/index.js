@@ -1,11 +1,13 @@
 import React from 'react';
 import { Dropdown } from 'react-bootstrap';
 import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
 
 import { ReactComponent as CartIcon } from 'images/shopping-cart.svg';
 import CartItem from 'components/CartItem';
+import { NavLink } from 'react-router-dom';
 
-const CartDropDown = () => (
+const CartDropDown = ({ cartData }) => (
   <Dropdown className="mr-3">
     <Dropdown.Toggle
       id="dropdown-cart"
@@ -31,17 +33,30 @@ const CartDropDown = () => (
         overflow: 'auto'
       }}
     >
-      <CartItem />
-      <CartItem />
-      <CartItem />
-      <CartItem />
-      <CartItem />
+      {cartData.length ? (
+        <>
+          {cartData.map(item => (
+            <CartItem product={item} key={item.id} />
+          ))}
+          <NavLink className="navLink" to="/cart">
+            <p className="w-100 text-center bg-primary p-3">
+              view details
+            </p>
+          </NavLink>
+        </>
+      ) : (
+        <p className="text-center"> nothing added yet</p>
+      )}
     </Dropdown.Menu>
   </Dropdown>
 );
 
 const mapStateToProps = state => ({
-  cart: state.cart.cart
+  cartData: state.cart.cart
 });
+
+CartDropDown.propTypes = {
+  cartData: PropTypes.array.isRequired
+};
 
 export default connect(mapStateToProps)(CartDropDown);

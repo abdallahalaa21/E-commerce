@@ -1,32 +1,40 @@
-import React, { useState } from 'react';
-import { Dropdown, Image } from 'react-bootstrap';
+import React from 'react';
+import { Button, Dropdown, Image } from 'react-bootstrap';
+import PropTypes from 'prop-types';
 import CountInput from 'components/CountInput';
+import { connect } from 'react-redux';
+import { removeFromCart } from 'redux/Cart/cart-actions';
 
-const product = {
-  title:
-    'Fjallraven - Foldsack No. 1 Backpack, Fits 15 Laptops',
-  price: 109.95,
-  image:
-    'https://fakestoreapi.com/img/81fPKd-2AYL._AC_SL1500_.jpg',
-  count: 1
-};
-
-const CartItem = () => {
-  const [count, setCount] = useState(9);
-
-  return (
-    <>
+const CartItem = ({ product, removeItem }) => (
+  <>
+    <div className="d-flex align-center justify-content-between">
       <Image
         src={product.image}
         width="50px"
         height="50px"
         style={{ objectFit: 'cover' }}
       />
-      <p>{product.title}</p>
-      <CountInput count={count} setCount={setCount} />
-      <Dropdown.Divider />
-    </>
-  );
+      <Button
+        variant="danger"
+        className="mr-4"
+        onClick={() => removeItem(product.id)}
+      >
+        x
+      </Button>
+    </div>
+    <p>{product.title}</p>
+    <CountInput qty={product.qty} id={product.id} />
+    <Dropdown.Divider />
+  </>
+);
+
+CartItem.propTypes = {
+  product: PropTypes.object.isRequired,
+  removeItem: PropTypes.func.isRequired
 };
 
-export default CartItem;
+const mapDispatchToProps = dispatch => ({
+  removeItem: itemId => dispatch(removeFromCart(itemId))
+});
+
+export default connect(null, mapDispatchToProps)(CartItem);
