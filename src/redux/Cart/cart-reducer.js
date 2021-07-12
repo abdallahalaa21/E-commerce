@@ -24,6 +24,7 @@ const cartReducer = (state = INITIAL_STATE, action) => {
           : [...state.cart, { ...item, qty: 1 }]
       };
     }
+
     case actionTypes.REMOVE_FROM_CART: {
       return {
         ...state,
@@ -51,6 +52,7 @@ const cartReducer = (state = INITIAL_STATE, action) => {
         )
       };
     }
+
     case actionTypes.INCREMENT_ITEM_QTY: {
       return {
         ...state,
@@ -61,6 +63,7 @@ const cartReducer = (state = INITIAL_STATE, action) => {
         )
       };
     }
+
     case actionTypes.DECREMENT_ITEM_QTY: {
       return {
         ...state,
@@ -72,6 +75,12 @@ const cartReducer = (state = INITIAL_STATE, action) => {
               }
             : item
         )
+      };
+    }
+    case actionTypes.EMPTY_CART: {
+      return {
+        ...state,
+        cart: []
       };
     }
 

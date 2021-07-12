@@ -35,3 +35,10 @@ export const decrementItemQty = itemID => ({
     id: itemID
   }
 });
+
+export const emptyCart = itemID => ({
+  type: actionTypes.EMPTY_CART,
+  payload: {
+    id: itemID
+  }
+});

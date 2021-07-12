@@ -23,6 +23,7 @@ const CartItem = ({ product, removeItem }) => (
       </Button>
     </div>
     <p>{product.title}</p>
+    <p>price: {product.price}</p>
     <CountInput qty={product.qty} id={product.id} />
     <Dropdown.Divider />
   </>
