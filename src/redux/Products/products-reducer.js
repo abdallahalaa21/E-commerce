@@ -1,7 +1,12 @@
 import * as actionTypes from './products-types';
-import { INITIAL_STATE } from '../initialState';
 
-const productsReducer = (state = INITIAL_STATE, action) => {
+const productsReducer = (
+  state = {
+    products: [],
+    filteredProducts: []
+  },
+  action
+) => {
   switch (action.type) {
     case actionTypes.SEARCH_PRODUCT: {
       return {

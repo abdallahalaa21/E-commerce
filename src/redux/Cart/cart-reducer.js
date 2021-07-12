@@ -1,27 +1,26 @@
 import * as actionTypes from './cart-types';
-import { INITIAL_STATE } from '../initialState';
 
-const cartReducer = (state = INITIAL_STATE, action) => {
+const cartReducer = (state = { cart: [] }, action) => {
   switch (action.type) {
     case actionTypes.ADD_TO_CART: {
-      const item = state.products.find(
-        product => product.id === Number(action.payload.id)
-      );
-
       const inCart = state.cart.find(
         cartItem =>
-          cartItem.id === Number(action.payload.id)
+          cartItem.id === Number(action.payload.product.id)
       );
 
       return {
         ...state,
         cart: inCart
           ? state.cart.map(cartItem =>
-              cartItem.id === Number(action.payload.id)
+              cartItem.id ===
+              Number(action.payload.product.id)
                 ? { ...cartItem, qty: cartItem.qty + 1 }
                 : cartItem
             )
-          : [...state.cart, { ...item, qty: 1 }]
+          : [
+              ...state.cart,
+              { ...action.payload.product, qty: 1 }
+            ]
       };
     }
 
