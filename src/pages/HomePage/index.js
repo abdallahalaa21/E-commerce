@@ -17,11 +17,22 @@ import { ReactComponent as ListIcon } from 'images/list.svg';
 import { ReactComponent as GridIcon } from 'images/grid.svg';
 
 import ProductCard from 'components/ProductCard';
-import { searchProduct } from 'redux/Products/products-actions';
+import {
+  searchProduct,
+  updateProduct
+} from 'redux/Products/products-actions';
 import useDebounce from 'helpers/useDebounce';
 import { NavLink } from 'react-router-dom';
+import {
+  firestore,
+  convertCollections
+} from 'firebase/firebase.utils';
 
-const HomePage = ({ products, searchProductFunc }) => {
+const HomePage = ({
+  products,
+  searchProductFunc,
+  setProducts
+}) => {
   const [searchTxt, setSearchTxt] = useState('');
   const [isList, setIsList] = useState(false);
   const debouncedSearchTerm = useDebounce(searchTxt, 500);
@@ -29,6 +40,19 @@ const HomePage = ({ products, searchProductFunc }) => {
     () => searchProductFunc(debouncedSearchTerm),
     [searchProductFunc, debouncedSearchTerm]
   );
+
+  useEffect(() => {
+    const getData = async () => {
+      const collectionref = await firestore.collection(
+        'products'
+      );
+      await collectionref.get().then(doc => {
+        setProducts(convertCollections(doc));
+      });
+    };
+    getData();
+  }, [setProducts]);
+
   return (
     <Container className="mt-4">
       <Row className="mb-3">
@@ -116,7 +140,8 @@ const HomePage = ({ products, searchProductFunc }) => {
 
 HomePage.propTypes = {
   products: PropTypes.array.isRequired,
-  searchProductFunc: PropTypes.func.isRequired
+  searchProductFunc: PropTypes.func.isRequired,
+  setProducts: PropTypes.func.isRequired
 };
 
 const mapStateToProps = state => ({
@@ -124,7 +149,10 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-  searchProductFunc: value => dispatch(searchProduct(value))
+  searchProductFunc: value =>
+    dispatch(searchProduct(value)),
+  setProducts: async products =>
+    dispatch(updateProduct(products))
 });
 
 export default connect(

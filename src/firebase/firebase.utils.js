@@ -35,4 +35,26 @@ export const signInWithGoogle = () =>
       });
     });
 
+export const addProducts = async (
+  collectionkey,
+  objectstoadd
+) => {
+  const collectionref = firestore.collection(collectionkey);
+  const batch = firestore.batch();
+  objectstoadd.forEach(item => {
+    const newDocRef = collectionref.doc();
+    console.log(newDocRef);
+    batch.set(newDocRef, item);
+  });
+  return batch.commit();
+};
+
+export const convertCollections = products => {
+  const abbas = products.docs.map(doc => {
+    const data = doc.data();
+    return data;
+  });
+  return abbas;
+};
+
 export default firebase;

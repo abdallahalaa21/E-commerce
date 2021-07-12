@@ -13,6 +13,14 @@ const productsReducer = (state = INITIAL_STATE, action) => {
         )
       };
     }
+
+    case actionTypes.UPDATE_PRODUCTS: {
+      return {
+        ...state,
+        products: action.payload,
+        filteredProducts: action.payload
+      };
+    }
     default:
       return state;
   }
