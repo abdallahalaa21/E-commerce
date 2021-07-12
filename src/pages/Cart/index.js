@@ -14,6 +14,7 @@ import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import CartItem from 'components/CartItem';
 import phoneCodes from 'helpers/phoneCodes';
+import { addOrder } from 'firebase/firebase.utils';
 
 const orderSchema = Yup.object().shape({
   address: Yup.string().required('Required'),
@@ -50,7 +51,7 @@ const Cart = ({ cartData, removeCart }) => {
       email: ''
     },
     onSubmit: data => {
-      console.log(JSON.stringify(data, null, 2));
+      addOrder({ ...data, cartData });
       removeCart();
       resetForm();
     },

@@ -57,4 +57,12 @@ export const convertCollections = products => {
   return abbas;
 };
 
+export const addOrder = async order => {
+  const collectionRef = firestore.collection('orders');
+  const batch = firestore.batch();
+  const newDocRef = collectionRef.doc();
+  batch.set(newDocRef, order);
+  return batch.commit();
+};
+
 export default firebase;
