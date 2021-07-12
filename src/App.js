@@ -1,5 +1,10 @@
 import 'bootstrap/dist/css/bootstrap.min.css';
-import React, { lazy, Suspense, useEffect } from 'react';
+import React, {
+  lazy,
+  Suspense,
+  useEffect,
+  useState
+} from 'react';
 import PropTypes from 'prop-types';
 import Header from 'components/Header';
 import {
@@ -14,12 +19,14 @@ import {
   convertCollections
 } from 'firebase/firebase.utils';
 import { updateProduct } from 'redux/Products/products-actions';
+import Sidebar from 'components/SideBar';
 
 const HomePage = lazy(() => import('pages/HomePage'));
 const Cart = lazy(() => import('pages/Cart'));
 const ProductPage = lazy(() => import('pages/ProductPage'));
 
 const App = ({ setProducts }) => {
+  const [toggleSideBar, setToggleSideBar] = useState(false);
   useEffect(() => {
     const getData = async () => {
       const collectionref = await firestore.collection(
@@ -32,28 +39,34 @@ const App = ({ setProducts }) => {
     getData();
   }, [setProducts]);
   return (
-    <div className="App">
+    <div className="App ">
       <Router>
-        <Header />
-        <Suspense
-          fallback={
-            <Spinner
-              animation="border"
-              role="status"
-              variant="primary"
-              style={{ width: '50vh', height: '50vh' }}
-              className="m-auto d-flex"
-            >
-              <span className="sr-only">Loading...</span>
-            </Spinner>
-          }
-        >
-          <Switch>
-            <Route path="/cart" component={Cart} />
-            <Route path="/:id" component={ProductPage} />
-            <Route path="/" component={HomePage} />
-          </Switch>
-        </Suspense>
+        <Header
+          setToggleSideBar={setToggleSideBar}
+          toggleSideBar={toggleSideBar}
+        />
+        <div className="d-flex ">
+          <Suspense
+            fallback={
+              <Spinner
+                animation="border"
+                role="status"
+                variant="primary"
+                style={{ width: '50vh', height: '50vh' }}
+                className="m-auto d-flex"
+              >
+                <span className="sr-only">Loading...</span>
+              </Spinner>
+            }
+          >
+            <Switch>
+              <Route path="/cart" component={Cart} />
+              <Route path="/:id" component={ProductPage} />
+              <Route path="/" component={HomePage} />
+            </Switch>
+          </Suspense>
+          {toggleSideBar && <Sidebar />}
+        </div>
       </Router>
     </div>
   );

@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import CountInput from 'components/CountInput';
 import { connect } from 'react-redux';
 import { removeFromCart } from 'redux/Cart/cart-actions';
+import { NavLink } from 'react-router-dom';
 
 const CartItem = ({ product, removeItem }) => (
   <>
@@ -22,7 +23,9 @@ const CartItem = ({ product, removeItem }) => (
         x
       </Button>
     </div>
-    <p>{product.title}</p>
+    <NavLink to={`${product?.id}`}>
+      <p>{product.title}</p>
+    </NavLink>
     <p>price: {product.price}</p>
     <CountInput qty={product.qty} id={product.id} />
     <Dropdown.Divider />

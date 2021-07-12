@@ -4,14 +4,16 @@ import React, {
   useState
 } from 'react';
 import { Button, Image, Navbar } from 'react-bootstrap';
+import PropTypes from 'prop-types';
 import { NavLink } from 'react-router-dom';
 import CartDropDown from 'components/CartDropDown';
 import {
   signInWithGoogle,
   auth
 } from 'firebase/firebase.utils';
+import { ReactComponent as SidebarIcon } from 'images/sidebar.svg';
 
-const Header = () => {
+const Header = ({ setToggleSideBar, toggleSideBar }) => {
   const [user, setUser] = useState({});
 
   useEffect(() => {
@@ -77,8 +79,25 @@ const Header = () => {
           </Button>
         )}
       </Navbar.Collapse>
+      <Button
+        onClick={() => setToggleSideBar(prev => !prev)}
+        className="ml-3"
+        style={{
+          width: 'fit-content',
+          height: 'auto',
+          fill: 'white'
+        }}
+        variant={toggleSideBar ? 'primary' : 'secondary'}
+      >
+        <SidebarIcon style={{ width: '40px' }} />
+      </Button>
     </Navbar>
   );
+};
+
+Header.propTypes = {
+  setToggleSideBar: PropTypes.func.isRequired,
+  toggleSideBar: PropTypes.bool.isRequired
 };
 
 export default Header;

@@ -75,7 +75,7 @@ const HomePage = ({ products, searchProductFunc }) => {
               {products.map(product => (
                 <NavLink
                   className="navLink"
-                  to={`${product?.id}`}
+                  to={`\${product?.id}`}
                 >
                   <tr key={product.id}>
                     <td>
