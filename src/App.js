@@ -1,5 +1,6 @@
 import 'bootstrap/dist/css/bootstrap.min.css';
-import React, { lazy, Suspense } from 'react';
+import React, { lazy, Suspense, useEffect } from 'react';
+import PropTypes from 'prop-types';
 import Header from 'components/Header';
 import {
   Route,
@@ -7,15 +8,30 @@ import {
   BrowserRouter as Router
 } from 'react-router-dom';
 import { Spinner } from 'react-bootstrap';
-import { Provider } from 'react-redux';
-import store from 'redux/store';
+import { connect } from 'react-redux';
+import {
+  firestore,
+  convertCollections
+} from 'firebase/firebase.utils';
+import { updateProduct } from 'redux/Products/products-actions';
 
 const HomePage = lazy(() => import('pages/HomePage'));
 const Cart = lazy(() => import('pages/Cart'));
 const ProductPage = lazy(() => import('pages/ProductPage'));
 
-const App = () => (
-  <Provider store={store}>
+const App = ({ setProducts }) => {
+  useEffect(() => {
+    const getData = async () => {
+      const collectionref = await firestore.collection(
+        'products'
+      );
+      await collectionref.get().then(doc => {
+        setProducts(convertCollections(doc));
+      });
+    };
+    getData();
+  }, [setProducts]);
+  return (
     <div className="App">
       <Router>
         <Header />
@@ -40,7 +56,16 @@ const App = () => (
         </Suspense>
       </Router>
     </div>
-  </Provider>
-);
+  );
+};
 
-export default App;
+App.propTypes = {
+  setProducts: PropTypes.func.isRequired
+};
+
+const mapDispatchToProps = dispatch => ({
+  setProducts: async products =>
+    dispatch(updateProduct(products))
+});
+
+export default connect(null, mapDispatchToProps)(App);

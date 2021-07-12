@@ -26,8 +26,8 @@ const ProductPage = ({ addItem }) => {
       <Row>
         <Col xs={12} sm={12} md={5} lg={6} xl={6}>
           <Image
-            src={product.image}
-            alt={product.name}
+            src={product?.image}
+            alt={product?.name}
             height="350px"
             style={{
               objectFit: 'contain',
@@ -39,15 +39,15 @@ const ProductPage = ({ addItem }) => {
         <Col xs={12} sm={12} md={7} lg={6} xl={6}>
           <Card className="h-100">
             <Card.Body className="d-flex flex-column">
-              <p>Name: {product.title}</p>
-              <p>Description: {product.description}</p>
-              <p>price: {product.price}</p>
+              <p>Name: {product?.title}</p>
+              <p>Description: {product?.description}</p>
+              <p>price: {product?.price}</p>
               <div className="d-flex mt-auto">
                 <Col>
                   <Button
                     variant="primary"
                     className="w-75"
-                    onClick={() => addItem(id)}
+                    onClick={() => addItem(product)}
                   >
                     add to cart
                   </Button>
@@ -62,7 +62,7 @@ const ProductPage = ({ addItem }) => {
 };
 
 const mapDispatchToProps = dispatch => ({
-  addItem: itemId => dispatch(addToCart(itemId))
+  addItem: product => dispatch(addToCart(product))
 });
 
 ProductPage.propTypes = {

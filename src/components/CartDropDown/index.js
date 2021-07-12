@@ -33,7 +33,7 @@ const CartDropDown = ({ cartData }) => (
         overflow: 'auto'
       }}
     >
-      {cartData.length ? (
+      {cartData?.length ? (
         <>
           {cartData.map(item => (
             <CartItem product={item} key={item.id} />

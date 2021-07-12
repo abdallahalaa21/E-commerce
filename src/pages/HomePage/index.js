@@ -23,16 +23,8 @@ import {
 } from 'redux/Products/products-actions';
 import useDebounce from 'helpers/useDebounce';
 import { NavLink } from 'react-router-dom';
-import {
-  firestore,
-  convertCollections
-} from 'firebase/firebase.utils';
 
-const HomePage = ({
-  products,
-  searchProductFunc,
-  setProducts
-}) => {
+const HomePage = ({ products, searchProductFunc }) => {
   const [searchTxt, setSearchTxt] = useState('');
   const [isList, setIsList] = useState(false);
   const debouncedSearchTerm = useDebounce(searchTxt, 500);
@@ -40,18 +32,6 @@ const HomePage = ({
     () => searchProductFunc(debouncedSearchTerm),
     [searchProductFunc, debouncedSearchTerm]
   );
-
-  useEffect(() => {
-    const getData = async () => {
-      const collectionref = await firestore.collection(
-        'products'
-      );
-      await collectionref.get().then(doc => {
-        setProducts(convertCollections(doc));
-      });
-    };
-    getData();
-  }, [setProducts]);
 
   return (
     <Container className="mt-4">
@@ -140,8 +120,7 @@ const HomePage = ({
 
 HomePage.propTypes = {
   products: PropTypes.array.isRequired,
-  searchProductFunc: PropTypes.func.isRequired,
-  setProducts: PropTypes.func.isRequired
+  searchProductFunc: PropTypes.func.isRequired
 };
 
 const mapStateToProps = state => ({
